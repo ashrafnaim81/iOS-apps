@@ -147,11 +147,11 @@ This means you can select "No" for encryption usage.
 ```
 SudokuGame/
 ├── SudokuGameApp.swift          # App entry point
-├── Models/
-│   └── SudokuGrid.swift         # Game logic and Sudoku generation
-├── Views/
-│   └── ContentView.swift        # Main UI and all views
-├── Assets.xcassets/             # App icons and colors
+├── Models/                      # Puzzle generator (unique solutions), game state, stats, settings
+├── Services/                    # Sound effects and haptics
+├── Views/                       # Splash, onboarding, home, game board, win screen, settings
+├── Sounds/                      # Synthesised WAV effects (regenerate: python3 tools/generate_sounds.py)
+├── Assets.xcassets/             # App icon, accent and launch colours
 ├── Info.plist                   # App configuration
 └── PrivacyInfo.xcprivacy        # Privacy manifest
 ```

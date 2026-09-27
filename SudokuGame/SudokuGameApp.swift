@@ -1,17 +1,15 @@
-//
-//  SudokuGameApp.swift
-//  SudokuGame
-//
-//  Created by Claude
-//
-
 import SwiftUI
 
 @main
 struct SudokuGameApp: App {
+    init() {
+        SettingsKey.registerDefaults()
+        SoundManager.shared.prepare()
+    }
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }

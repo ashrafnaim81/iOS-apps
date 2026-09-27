@@ -7,21 +7,71 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1000001 /* SudokuGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002 /* SudokuGameApp.swift */; };
-		A1000003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000004 /* ContentView.swift */; };
-		A1000005 /* SudokuGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000006 /* SudokuGrid.swift */; };
-		A1000007 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1000008 /* Assets.xcassets */; };
-		A1000009 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1000010 /* PrivacyInfo.xcprivacy */; };
+		C1000001 /* SudokuGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000001 /* SudokuGameApp.swift */; };
+		C1000002 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1000002 /* Assets.xcassets */; };
+		C1000004 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = B1000004 /* PrivacyInfo.xcprivacy */; };
+		C1000005 /* Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000005 /* Difficulty.swift */; };
+		C1000006 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000006 /* GameModel.swift */; };
+		C1000007 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000007 /* Settings.swift */; };
+		C1000008 /* SudokuGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000008 /* SudokuGenerator.swift */; };
+		C1000009 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000009 /* Haptics.swift */; };
+		C1000010 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000010 /* SoundManager.swift */; };
+		C1000011 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000011 /* BoardView.swift */; };
+		C1000012 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000012 /* Components.swift */; };
+		C1000013 /* ConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000013 /* ConfettiView.swift */; };
+		C1000014 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000014 /* GameView.swift */; };
+		C1000015 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000015 /* HomeView.swift */; };
+		C1000016 /* NumberPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000016 /* NumberPadView.swift */; };
+		C1000017 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000017 /* OnboardingView.swift */; };
+		C1000018 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000018 /* RootView.swift */; };
+		C1000019 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000019 /* SettingsView.swift */; };
+		C1000020 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000020 /* SplashView.swift */; };
+		C1000021 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000021 /* Theme.swift */; };
+		C1000022 /* WinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000022 /* WinView.swift */; };
+		C1000023 /* button.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000023 /* button.wav */; };
+		C1000024 /* erase.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000024 /* erase.wav */; };
+		C1000025 /* error.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000025 /* error.wav */; };
+		C1000026 /* group.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000026 /* group.wav */; };
+		C1000027 /* hint.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000027 /* hint.wav */; };
+		C1000028 /* place.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000028 /* place.wav */; };
+		C1000029 /* star.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000029 /* star.wav */; };
+		C1000030 /* tap.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000030 /* tap.wav */; };
+		C1000031 /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000031 /* win.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A1000011 /* SudokuGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SudokuGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1000002 /* SudokuGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuGameApp.swift; sourceTree = "<group>"; };
-		A1000004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		A1000006 /* SudokuGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuGrid.swift; sourceTree = "<group>"; };
-		A1000008 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A1000012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A1000010 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		B1000001 /* SudokuGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuGameApp.swift; sourceTree = "<group>"; };
+		B1000002 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B1000003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B1000004 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		B1000005 /* Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Difficulty.swift; sourceTree = "<group>"; };
+		B1000006 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		B1000007 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		B1000008 /* SudokuGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuGenerator.swift; sourceTree = "<group>"; };
+		B1000009 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		B1000010 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		B1000011 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
+		B1000012 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		B1000013 /* ConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfettiView.swift; sourceTree = "<group>"; };
+		B1000014 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		B1000015 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		B1000016 /* NumberPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPadView.swift; sourceTree = "<group>"; };
+		B1000017 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		B1000018 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		B1000019 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B1000020 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		B1000021 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		B1000022 /* WinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinView.swift; sourceTree = "<group>"; };
+		B1000023 /* button.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = button.wav; sourceTree = "<group>"; };
+		B1000024 /* erase.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = erase.wav; sourceTree = "<group>"; };
+		B1000025 /* error.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = error.wav; sourceTree = "<group>"; };
+		B1000026 /* group.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = group.wav; sourceTree = "<group>"; };
+		B1000027 /* hint.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hint.wav; sourceTree = "<group>"; };
+		B1000028 /* place.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = place.wav; sourceTree = "<group>"; };
+		B1000029 /* star.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = star.wav; sourceTree = "<group>"; };
+		B1000030 /* tap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = tap.wav; sourceTree = "<group>"; };
+		B1000031 /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,12 +96,14 @@
 		A1000015 /* SudokuGame */ = {
 			isa = PBXGroup;
 			children = (
-				A1000002 /* SudokuGameApp.swift */,
-				A1000017 /* Views */,
+				B1000001 /* SudokuGameApp.swift */,
 				A1000018 /* Models */,
-				A1000008 /* Assets.xcassets */,
-				A1000012 /* Info.plist */,
-				A1000010 /* PrivacyInfo.xcprivacy */,
+				D1000001 /* Services */,
+				A1000017 /* Views */,
+				D1000002 /* Sounds */,
+				B1000002 /* Assets.xcassets */,
+				B1000003 /* Info.plist */,
+				B1000004 /* PrivacyInfo.xcprivacy */,
 			);
 			path = SudokuGame;
 			sourceTree = "<group>";
@@ -64,20 +116,59 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		A1000018 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B1000005 /* Difficulty.swift */,
+				B1000006 /* GameModel.swift */,
+				B1000007 /* Settings.swift */,
+				B1000008 /* SudokuGenerator.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D1000001 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B1000009 /* Haptics.swift */,
+				B1000010 /* SoundManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		A1000017 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A1000004 /* ContentView.swift */,
+				B1000011 /* BoardView.swift */,
+				B1000012 /* Components.swift */,
+				B1000013 /* ConfettiView.swift */,
+				B1000014 /* GameView.swift */,
+				B1000015 /* HomeView.swift */,
+				B1000016 /* NumberPadView.swift */,
+				B1000017 /* OnboardingView.swift */,
+				B1000018 /* RootView.swift */,
+				B1000019 /* SettingsView.swift */,
+				B1000020 /* SplashView.swift */,
+				B1000021 /* Theme.swift */,
+				B1000022 /* WinView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		A1000018 /* Models */ = {
+		D1000002 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				A1000006 /* SudokuGrid.swift */,
+				B1000023 /* button.wav */,
+				B1000024 /* erase.wav */,
+				B1000025 /* error.wav */,
+				B1000026 /* group.wav */,
+				B1000027 /* hint.wav */,
+				B1000028 /* place.wav */,
+				B1000029 /* star.wav */,
+				B1000030 /* tap.wav */,
+				B1000031 /* win.wav */,
 			);
-			path = Models;
+			path = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,8 +229,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1000007 /* Assets.xcassets in Resources */,
-				A1000009 /* PrivacyInfo.xcprivacy in Resources */,
+				C1000002 /* Assets.xcassets in Resources */,
+				C1000004 /* PrivacyInfo.xcprivacy in Resources */,
+				C1000023 /* button.wav in Resources */,
+				C1000024 /* erase.wav in Resources */,
+				C1000025 /* error.wav in Resources */,
+				C1000026 /* group.wav in Resources */,
+				C1000027 /* hint.wav in Resources */,
+				C1000028 /* place.wav in Resources */,
+				C1000029 /* star.wav in Resources */,
+				C1000030 /* tap.wav in Resources */,
+				C1000031 /* win.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,9 +250,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1000003 /* ContentView.swift in Sources */,
-				A1000005 /* SudokuGrid.swift in Sources */,
-				A1000001 /* SudokuGameApp.swift in Sources */,
+				C1000001 /* SudokuGameApp.swift in Sources */,
+				C1000005 /* Difficulty.swift in Sources */,
+				C1000006 /* GameModel.swift in Sources */,
+				C1000007 /* Settings.swift in Sources */,
+				C1000008 /* SudokuGenerator.swift in Sources */,
+				C1000009 /* Haptics.swift in Sources */,
+				C1000010 /* SoundManager.swift in Sources */,
+				C1000011 /* BoardView.swift in Sources */,
+				C1000012 /* Components.swift in Sources */,
+				C1000013 /* ConfettiView.swift in Sources */,
+				C1000014 /* GameView.swift in Sources */,
+				C1000015 /* HomeView.swift in Sources */,
+				C1000016 /* NumberPadView.swift in Sources */,
+				C1000017 /* OnboardingView.swift in Sources */,
+				C1000018 /* RootView.swift in Sources */,
+				C1000019 /* SettingsView.swift in Sources */,
+				C1000020 /* SplashView.swift in Sources */,
+				C1000021 /* Theme.swift in Sources */,
+				C1000022 /* WinView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,11 +405,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SudokuGame/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -318,11 +429,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = SudokuGame/Info.plist;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
