@@ -3,8 +3,9 @@
 
 Requires numpy and imageio-ffmpeg:  pip install numpy imageio-ffmpeg
 Run from the repo root:             python3 tools/generate_music.py
-Writes SudokuGame/Sounds/music_home.m4a and music_game.m4a, and prints each
-track's exact loop length in frames.
+Writes SudokuGame/Sounds/music_home.m4a and music_game.m4a, plus
+music_loops.json with each track's exact loop length in frames (the app trims
+the AAC encoder padding to that length so the loop has no gap).
 
 "Santai Pagi" is a bossa nova (nylon guitar, upright bass, brushes, soft piano);
 "Santai Petang" is a slow ballad (finger-picked guitar, soft felt piano, bass).
@@ -15,6 +16,8 @@ import os
 import random
 import subprocess
 import wave
+
+import json
 
 import imageio_ffmpeg
 import numpy as np
@@ -274,6 +277,7 @@ def write(song, name):
                     "-c:a", "aac", "-b:a", "128k", out], check=True)
     os.remove(tmp)
     print(f"wrote {out} ({song.n / SR:.1f}s, {os.path.getsize(out) // 1024} KB, loop frames {song.n})")
+    return song.n
 
 
 # --------------------------------------------------------------------------- "Santai Pagi" (home): bossa nova
@@ -350,5 +354,8 @@ def santai_petang():
 
 if __name__ == "__main__":
     os.makedirs(OUT_DIR, exist_ok=True)
-    write(santai_pagi(), "music_home")
-    write(santai_petang(), "music_game")
+    loops = {"music_home": write(santai_pagi(), "music_home"),
+             "music_game": write(santai_petang(), "music_game")}
+    with open(os.path.join(OUT_DIR, "music_loops.json"), "w") as f:
+        json.dump(loops, f, indent=2)
+        f.write("\n")

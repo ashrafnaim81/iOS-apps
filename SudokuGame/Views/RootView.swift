@@ -47,7 +47,10 @@ struct RootView: View {
                 MusicManager.shared.stop()
             }
         }
-        .onChange(of: screen) { _ in updateActivity() }
+        .onChange(of: screen) { next in
+            updateActivity()
+            MusicManager.shared.play(next == .game ? .game : .home)
+        }
     }
 
     private func go(_ next: Screen) {

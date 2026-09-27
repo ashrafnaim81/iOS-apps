@@ -34,7 +34,7 @@ group_refs = {g: [add(f) for f in files] for g, (_, files) in groups.items()}
 
 def ftype(n):
     return {"swift": "sourcecode.swift", "xcassets": "folder.assetcatalog", "plist": "text.plist.xml",
-            "xcprivacy": "text.xml", "wav": "audio.wav", "m4a": "file"}[n.rsplit(".", 1)[1]]
+            "xcprivacy": "text.xml", "wav": "audio.wav", "m4a": "file", "json": "text.json"}[n.rsplit(".", 1)[1]]
 
 o = []
 o.append("// !$*UTF8*$!\n{\n\tarchiveVersion = 1;\n\tclasses = {\n\t};\n\tobjectVersion = 56;\n\tobjects = {\n\n")

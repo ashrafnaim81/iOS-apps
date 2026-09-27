@@ -39,11 +39,13 @@
 		C1000031 /* error.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000031 /* error.wav */; };
 		C1000032 /* group.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000032 /* group.wav */; };
 		C1000033 /* hint.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000033 /* hint.wav */; };
-		C1000034 /* music.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B1000034 /* music.m4a */; };
-		C1000035 /* place.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000035 /* place.wav */; };
-		C1000036 /* star.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000036 /* star.wav */; };
-		C1000037 /* tap.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000037 /* tap.wav */; };
-		C1000038 /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000038 /* win.wav */; };
+		C1000034 /* music_game.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B1000034 /* music_game.m4a */; };
+		C1000035 /* music_home.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B1000035 /* music_home.m4a */; };
+		C1000036 /* music_loops.json in Resources */ = {isa = PBXBuildFile; fileRef = B1000036 /* music_loops.json */; };
+		C1000037 /* place.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000037 /* place.wav */; };
+		C1000038 /* star.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000038 /* star.wav */; };
+		C1000039 /* tap.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000039 /* tap.wav */; };
+		C1000040 /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = B1000040 /* win.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,11 +83,13 @@
 		B1000031 /* error.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = error.wav; sourceTree = "<group>"; };
 		B1000032 /* group.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = group.wav; sourceTree = "<group>"; };
 		B1000033 /* hint.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hint.wav; sourceTree = "<group>"; };
-		B1000034 /* music.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = music.m4a; sourceTree = "<group>"; };
-		B1000035 /* place.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = place.wav; sourceTree = "<group>"; };
-		B1000036 /* star.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = star.wav; sourceTree = "<group>"; };
-		B1000037 /* tap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = tap.wav; sourceTree = "<group>"; };
-		B1000038 /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win.wav; sourceTree = "<group>"; };
+		B1000034 /* music_game.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = music_game.m4a; sourceTree = "<group>"; };
+		B1000035 /* music_home.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = music_home.m4a; sourceTree = "<group>"; };
+		B1000036 /* music_loops.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = music_loops.json; sourceTree = "<group>"; };
+		B1000037 /* place.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = place.wav; sourceTree = "<group>"; };
+		B1000038 /* star.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = star.wav; sourceTree = "<group>"; };
+		B1000039 /* tap.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = tap.wav; sourceTree = "<group>"; };
+		B1000040 /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,11 +187,13 @@
 				B1000031 /* error.wav */,
 				B1000032 /* group.wav */,
 				B1000033 /* hint.wav */,
-				B1000034 /* music.m4a */,
-				B1000035 /* place.wav */,
-				B1000036 /* star.wav */,
-				B1000037 /* tap.wav */,
-				B1000038 /* win.wav */,
+				B1000034 /* music_game.m4a */,
+				B1000035 /* music_home.m4a */,
+				B1000036 /* music_loops.json */,
+				B1000037 /* place.wav */,
+				B1000038 /* star.wav */,
+				B1000039 /* tap.wav */,
+				B1000040 /* win.wav */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -257,11 +263,13 @@
 				C1000031 /* error.wav in Resources */,
 				C1000032 /* group.wav in Resources */,
 				C1000033 /* hint.wav in Resources */,
-				C1000034 /* music.m4a in Resources */,
-				C1000035 /* place.wav in Resources */,
-				C1000036 /* star.wav in Resources */,
-				C1000037 /* tap.wav in Resources */,
-				C1000038 /* win.wav in Resources */,
+				C1000034 /* music_game.m4a in Resources */,
+				C1000035 /* music_home.m4a in Resources */,
+				C1000036 /* music_loops.json in Resources */,
+				C1000037 /* place.wav in Resources */,
+				C1000038 /* star.wav in Resources */,
+				C1000039 /* tap.wav in Resources */,
+				C1000040 /* win.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
