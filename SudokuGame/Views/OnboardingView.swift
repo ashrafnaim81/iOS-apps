@@ -28,10 +28,9 @@ struct OnboardingView: View {
                         ZStack {
                             Circle().fill(Theme.brandGradient).frame(width: 230, height: 230)
                             VStack(spacing: 0) {
-                                SantaiCat(mood: .wave, size: 130)
-                                    .padding(.bottom, -28)
-                                    .zIndex(1)
-                                LogoGrid(size: 90)
+                                SantaiCat(mood: .wave, size: 110)
+                                    .perched()
+                                LogoGrid(size: 84)
                             }
                         }
                     }

@@ -82,8 +82,7 @@ struct HomeView: View {
     private var hero: some View {
         VStack(spacing: 0) {
             SantaiCat(mood: catMood, size: 132)
-                .padding(.bottom, -30)
-                .zIndex(1)
+                .perched()
                 .onTapGesture {
                     SoundManager.shared.play(.star)
                     Haptics.impact(.light)

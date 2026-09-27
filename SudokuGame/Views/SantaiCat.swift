@@ -25,6 +25,12 @@ struct SantaiCat: View {
         .onChange(of: mood) { _ in moodStart = Date() }
         .accessibilityHidden(true)
     }
+
+    /// Seats the cat on top of the view below it in a VStack: the paws end at
+    /// ~98% of the frame, so pulling down 5% rests them on that view's top edge.
+    func perched() -> some View {
+        padding(.bottom, -size * 0.05).zIndex(1)
+    }
 }
 
 private struct CatRenderer {

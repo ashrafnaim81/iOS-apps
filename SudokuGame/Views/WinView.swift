@@ -18,8 +18,7 @@ struct WinView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     SantaiCat(mood: .dance, size: 130)
-                        .padding(.bottom, -26)
-                        .zIndex(1)
+                        .perched()
                     card
                 }
                 .padding(.vertical, 30)

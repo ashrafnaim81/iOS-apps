@@ -13,8 +13,7 @@ struct SplashView: View {
             FloatingDigitsBackground().ignoresSafeArea()
             VStack(spacing: 0) {
                 SantaiCat(mood: .wave, size: 140)
-                    .padding(.bottom, -32)
-                    .zIndex(1)
+                    .perched()
                     .scaleEffect(showCat ? 1 : 0.3, anchor: .bottom)
                     .opacity(showCat ? 1 : 0)
                 LogoGrid(size: 140)
