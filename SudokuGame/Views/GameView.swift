@@ -56,6 +56,7 @@ struct GameView: View {
         .sheet(isPresented: $showSettings) { SettingsView(onShowTutorial: nil) }
         .onAppear {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.05)) { boardIn = true }
+            if game.isSolved && game.lastResult != nil { showWin = true }
         }
         .onChange(of: game.isSolved) { solved in
             if solved {

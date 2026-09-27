@@ -38,7 +38,15 @@ struct RootView: View {
                     .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .opacity))
             }
         }
-        .onAppear { MusicManager.shared.refresh() }
+        .onAppear {
+            #if DEBUG
+            if let scene = UserDefaults.standard.string(forKey: "screenshot") {
+                showScreenshotScene(scene)
+                return
+            }
+            #endif
+            MusicManager.shared.refresh()
+        }
         .onChange(of: scenePhase) { phase in
             updateActivity()
             if phase == .active {
@@ -60,4 +68,21 @@ struct RootView: View {
     private func updateActivity() {
         game.setActive(scenePhase == .active && screen == .game)
     }
+
+    #if DEBUG
+    /// Launch argument `-screenshot <scene>` opens a screen with sample data for App Store screenshots.
+    private func showScreenshotScene(_ scene: String) {
+        UserDefaults.standard.set(false, forKey: SettingsKey.music)
+        UserDefaults.standard.set(false, forKey: SettingsKey.sound)
+        hasSeenOnboarding = true
+        game.loadScreenshotDemo(solved: scene == "win")
+        switch scene {
+        case "game", "win": screen = .game
+        case "daily": screen = .daily
+        case "achievements": screen = .achievements
+        case "onboarding": screen = .onboarding
+        default: screen = .home
+        }
+    }
+    #endif
 }

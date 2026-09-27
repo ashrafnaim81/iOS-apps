@@ -480,4 +480,48 @@ final class GameModel: ObservableObject {
               s.notes == nil || s.notes?.count == 81 else { return nil }
         return s
     }
+
+    #if DEBUG
+    /// Deterministic sample state for App Store screenshots (Debug builds only).
+    func loadScreenshotDemo(solved: Bool) {
+        let puzzle = SudokuGenerator.generate(solved ? .hard : .medium, seed: 20260927)
+        start(puzzle, difficulty: solved ? .hard : .medium, mode: .classic)
+        var rng = SplitMix64(seed: 7)
+        let empty = (0..<81).filter { !givens[$0] }.shuffled(using: &rng)
+        for i in empty.prefix(solved ? empty.count : 18) { values[i] = solution[i] }
+        if !solved {
+            for i in empty.dropFirst(18).prefix(7) {
+                let used = Set((0..<81).filter { isRelated($0, to: i) }.map { values[$0] })
+                notes[i] = Set((1...9).filter { !used.contains($0) }.prefix(3)).union([solution[i]])
+            }
+            selected = (0..<81).first { values[$0] == 7 && !givens[$0] } ?? empty[0]
+            elapsed = 245
+            hintsUsed = 1
+        }
+
+        var demo = GameStats()
+        demo.solved = ["easy": 18, "medium": 21, "hard": 7, "expert": 2]
+        demo.bestTime = ["easy": 262, "medium": 498, "hard": 861, "expert": 1604]
+        demo.totalStars = 131
+        demo.flawless = 19
+        demo.streak = 12
+        demo.bestStreak = 15
+        demo.lastPlayDay = DayKey.today()
+        for offset in 1...20 where offset % 6 != 0 {
+            demo.dailyStars[DayKey.key(daysFromToday: -offset)] = offset % 4 == 0 ? 2 : 3
+        }
+        let unlocked: [Achievement] = [.firstSolve, .flawless, .tenSolved, .easyWin, .mediumWin, .hardWin,
+                                       .quickEasy, .quickMedium, .streak3, .streak7, .firstDaily, .weekOfDailies]
+        for a in unlocked { demo.achievements[a.rawValue] = 0 }
+        stats = demo
+
+        if solved {
+            isSolved = true
+            catMood = .dance
+            lastResult = WinResult(difficulty: .hard, dayKey: nil, time: 732, mistakes: 0, hints: 0, stars: 3,
+                                   isNewBest: true, streak: 12, newAchievements: [.quickHard])
+        }
+        refreshClassicSummary()
+    }
+    #endif
 }
