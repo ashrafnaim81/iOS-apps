@@ -24,10 +24,15 @@ struct OnboardingView: View {
 
                 TabView(selection: $page) {
                     OnboardingPage(title: "Welcome to\nSudoku Santai",
-                                   text: "A calm, classic number puzzle. No ads, no accounts. Just you and the grid.") {
+                                   text: "Hi, I'm Si Santai! Let's solve calm, classic number puzzles together. No ads, no accounts.") {
                         ZStack {
                             Circle().fill(Theme.brandGradient).frame(width: 230, height: 230)
-                            LogoGrid(size: 130)
+                            VStack(spacing: 0) {
+                                SantaiCat(mood: .wave, size: 130)
+                                    .padding(.bottom, -28)
+                                    .zIndex(1)
+                                LogoGrid(size: 90)
+                            }
                         }
                     }
                     .tag(0)
@@ -42,7 +47,7 @@ struct OnboardingView: View {
                     }
                     .tag(2)
                     OnboardingPage(title: "Play Your Way",
-                                   text: "Mistakes turn red. Undo, erase or ask for a hint anytime. Solve with no mistakes and no hints to earn 3 stars.") {
+                                   text: "Jot pencil notes, undo or ask for a hint anytime. Play the Daily Challenge to grow your streak and unlock achievements.") {
                         HelpersIllustration()
                     }
                     .tag(3)

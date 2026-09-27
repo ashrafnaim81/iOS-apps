@@ -5,6 +5,7 @@ struct SettingsView: View {
 
     @Environment(\.dismiss) private var dismiss
     @AppStorage(SettingsKey.sound) private var sound = true
+    @AppStorage(SettingsKey.music) private var music = true
     @AppStorage(SettingsKey.haptics) private var haptics = true
     @AppStorage(SettingsKey.highlightRelated) private var highlightRelated = true
     @AppStorage(SettingsKey.highlightSame) private var highlightSame = true
@@ -20,6 +21,8 @@ struct SettingsView: View {
         NavigationView {
             Form {
                 Section("Feedback") {
+                    Toggle(isOn: $music) { Label("Background Music", systemImage: "music.note") }
+                        .onChange(of: music) { _ in MusicManager.shared.refresh() }
                     Toggle(isOn: $sound) { Label("Sound Effects", systemImage: "speaker.wave.2.fill") }
                     Toggle(isOn: $haptics) { Label("Vibration", systemImage: "iphone.radiowaves.left.and.right") }
                 }
@@ -45,7 +48,7 @@ struct SettingsView: View {
                     }
                     VStack(alignment: .leading, spacing: 6) {
                         Label("Privacy", systemImage: "lock.shield.fill").font(.headline)
-                        Text("Sudoku Santai does not collect, store or share any personal data. There are no ads, no tracking and no accounts. Your progress stays on this device.")
+                        Text("Sudoku Santai does not collect, store or share any personal data. There are no ads, no tracking and no accounts. Your progress stays on this device. Music and sound effects are original and generated for this app.")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                     }

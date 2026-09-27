@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct RootView: View {
-    private enum Screen { case splash, onboarding, home, game }
+    private enum Screen { case splash, onboarding, home, game, daily, achievements }
 
     @StateObject private var game = GameModel()
     @State private var screen: Screen = .splash
@@ -21,14 +21,32 @@ struct RootView: View {
                 }
                 .transition(.opacity)
             case .home:
-                HomeView(game: game, onPlay: { go(.game) }, onShowTutorial: { go(.onboarding) })
+                HomeView(game: game,
+                         onPlay: { go(.game) },
+                         onDaily: { go(.daily) },
+                         onAchievements: { go(.achievements) },
+                         onShowTutorial: { go(.onboarding) })
                     .transition(.opacity)
             case .game:
-                GameView(game: game, onHome: { go(.home) })
+                GameView(game: game, onHome: { go(.home) }, onDaily: { go(.daily) })
+                    .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .opacity))
+            case .daily:
+                DailyView(game: game, onBack: { go(.home) }, onPlay: { go(.game) })
+                    .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .opacity))
+            case .achievements:
+                AchievementsView(game: game, onBack: { go(.home) })
                     .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .opacity))
             }
         }
-        .onChange(of: scenePhase) { _ in updateActivity() }
+        .onAppear { MusicManager.shared.refresh() }
+        .onChange(of: scenePhase) { phase in
+            updateActivity()
+            if phase == .active {
+                MusicManager.shared.refresh()
+            } else {
+                MusicManager.shared.stop()
+            }
+        }
         .onChange(of: screen) { _ in updateActivity() }
     }
 

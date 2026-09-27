@@ -4,14 +4,20 @@ struct SplashView: View {
     let onFinish: () -> Void
 
     @State private var showTitle = false
+    @State private var showCat = false
     @State private var finished = false
 
     var body: some View {
         ZStack {
-            Theme.brandGradient.ignoresSafeArea()
+            LivingBackground()
             FloatingDigitsBackground().ignoresSafeArea()
-            VStack(spacing: 26) {
-                LogoGrid(size: 150)
+            VStack(spacing: 0) {
+                SantaiCat(mood: .wave, size: 140)
+                    .padding(.bottom, -32)
+                    .zIndex(1)
+                    .scaleEffect(showCat ? 1 : 0.3, anchor: .bottom)
+                    .opacity(showCat ? 1 : 0)
+                LogoGrid(size: 140)
                     .shadow(color: .black.opacity(0.25), radius: 20, y: 10)
                 VStack(spacing: 6) {
                     Text("Sudoku Santai")
@@ -21,6 +27,7 @@ struct SplashView: View {
                         .opacity(0.75)
                 }
                 .foregroundColor(.white)
+                .padding(.top, 24)
                 .opacity(showTitle ? 1 : 0)
                 .offset(y: showTitle ? 0 : 14)
             }
@@ -28,9 +35,10 @@ struct SplashView: View {
         .contentShape(Rectangle())
         .onTapGesture(perform: finish)
         .onAppear {
-            withAnimation(.easeOut(duration: 0.6).delay(0.6)) { showTitle = true }
+            withAnimation(.spring(response: 0.55, dampingFraction: 0.6).delay(0.5)) { showCat = true }
+            withAnimation(.easeOut(duration: 0.6).delay(0.8)) { showTitle = true }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) { SoundManager.shared.play(.group) }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: finish)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.4, execute: finish)
         }
     }
 

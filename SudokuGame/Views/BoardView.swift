@@ -38,6 +38,8 @@ struct BoardView: View {
         let value = game.values[i]
         return CellView(
             value: value,
+            notes: game.notes[i],
+            noteHighlight: highlightSame ? selectedValue : 0,
             isGiven: game.givens[i],
             isWrong: game.isWrong(i),
             isSelected: sel == i,
@@ -88,6 +90,8 @@ struct GridLines: View {
 
 struct CellView: View {
     let value: Int
+    let notes: Set<Int>
+    let noteHighlight: Int
     let isGiven: Bool
     let isWrong: Bool
     let isSelected: Bool
@@ -100,6 +104,7 @@ struct CellView: View {
     let waveDelay: Double
 
     @State private var popScale: CGFloat = 1
+    @State private var ink: CGFloat = 1
     @State private var shakes: CGFloat = 0
     @State private var glow: Double = 0
 
@@ -111,8 +116,11 @@ struct CellView: View {
                 Text("\(value)")
                     .font(Theme.rounded(size * 0.56, isGiven ? .semibold : .medium))
                     .foregroundColor(textColor)
+                    .mask(Rectangle().scaleEffect(x: ink, y: 1, anchor: .leading))
                     .scaleEffect(popScale * (1 + 0.15 * glow))
                     .modifier(ShakeEffect(animatableData: shakes))
+            } else if !notes.isEmpty {
+                notesGrid
             }
         }
         .frame(width: size, height: size)
@@ -120,9 +128,11 @@ struct CellView: View {
         .animation(.easeOut(duration: 0.18), value: isRelated)
         .animation(.easeOut(duration: 0.18), value: isSame)
         .onChange(of: popTick) { _ in
-            popScale = 0.3
+            popScale = 0.55
+            ink = 0
             DispatchQueue.main.async {
                 withAnimation(.spring(response: 0.38, dampingFraction: 0.5)) { popScale = 1 }
+                withAnimation(.easeOut(duration: 0.28)) { ink = 1 }
             }
         }
         .onChange(of: shakeTick) { _ in
@@ -136,6 +146,24 @@ struct CellView: View {
                 }
             }
         }
+    }
+
+    private var notesGrid: some View {
+        let mini = size / 3
+        return VStack(spacing: 0) {
+            ForEach(0..<3, id: \.self) { r in
+                HStack(spacing: 0) {
+                    ForEach(1...3, id: \.self) { c in
+                        let n = r * 3 + c
+                        Text(notes.contains(n) ? "\(n)" : " ")
+                            .font(Theme.rounded(mini * 0.72, n == noteHighlight ? .heavy : .medium))
+                            .foregroundColor(n == noteHighlight ? Theme.accent : Theme.inkSoft)
+                            .frame(width: mini, height: mini)
+                    }
+                }
+            }
+        }
+        .transition(.opacity)
     }
 
     private var background: Color {

@@ -3,6 +3,7 @@ import SwiftUI
 struct GameView: View {
     @ObservedObject var game: GameModel
     let onHome: () -> Void
+    let onDaily: () -> Void
 
     @AppStorage(SettingsKey.showTimer) private var showTimer = true
     @State private var showSettings = false
@@ -46,7 +47,7 @@ struct GameView: View {
                 }
 
                 if showWin, let result = game.lastResult {
-                    WinView(result: result, onNext: nextPuzzle, onHome: goHome)
+                    WinView(result: result, onNext: nextPuzzle, onHome: goHome, onCalendar: onDaily)
                         .transition(.opacity)
                         .zIndex(10)
                 }
@@ -74,12 +75,15 @@ struct GameView: View {
             CircleIconButton(systemName: "chevron.left", action: goHome)
                 .accessibilityLabel("Home")
             Spacer()
-            VStack(spacing: 2) {
-                HStack(spacing: 6) {
-                    Circle().fill(game.difficulty.color).frame(width: 8, height: 8)
-                    Text(game.difficulty.displayName).font(Theme.rounded(19, .bold)).foregroundColor(Theme.ink)
+            HStack(spacing: 6) {
+                SantaiCat(mood: game.isPaused ? .sleep : game.catMood, size: 46)
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 6) {
+                        Circle().fill(game.difficulty.color).frame(width: 8, height: 8)
+                        Text(game.difficulty.displayName).font(Theme.rounded(18, .bold)).foregroundColor(Theme.ink)
+                    }
+                    Text(subtitle).font(Theme.rounded(12, .medium)).foregroundColor(Theme.inkSoft)
                 }
-                Text("Sudoku Santai").font(Theme.rounded(12, .medium)).foregroundColor(Theme.inkSoft)
             }
             Spacer()
             CircleIconButton(systemName: game.isPaused ? "play.fill" : "pause.fill") { game.togglePause() }
@@ -87,6 +91,11 @@ struct GameView: View {
             CircleIconButton(systemName: "gearshape.fill") { showSettings = true }
                 .accessibilityLabel("Settings")
         }
+    }
+
+    private var subtitle: String {
+        if let day = game.mode.dayKey { return "Daily · \(DayKey.shortLabel(for: day))" }
+        return "Sudoku Santai"
     }
 
     private var statsBar: some View {
@@ -116,11 +125,9 @@ struct GameView: View {
                 .blur(radius: game.isPaused ? 14 : 0)
                 .allowsHitTesting(!game.isPaused)
             if game.isPaused {
-                VStack(spacing: 14) {
-                    Image(systemName: "pause.circle.fill")
-                        .font(.system(size: 56))
-                        .foregroundColor(Theme.accent)
-                    Text("Paused").font(Theme.rounded(24, .bold)).foregroundColor(Theme.ink)
+                VStack(spacing: 10) {
+                    SantaiCat(mood: .sleep, size: 120)
+                    Text("Si Santai is napping").font(Theme.rounded(22, .bold)).foregroundColor(Theme.ink)
                     Button {
                         game.togglePause()
                     } label: {
@@ -144,9 +151,11 @@ struct GameView: View {
     }
 
     private var controls: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 10) {
             ToolButton(systemName: "arrow.uturn.backward", title: "Undo", enabled: game.canUndo) { game.undo() }
             ToolButton(systemName: "eraser", title: "Erase", enabled: true) { game.erase() }
+            ToolButton(systemName: game.notesMode ? "pencil.circle.fill" : "pencil", title: game.notesMode ? "Notes On" : "Notes",
+                       enabled: true, isOn: game.notesMode) { game.toggleNotesMode() }
             ToolButton(systemName: "lightbulb.fill", title: "Hint", enabled: true, tint: Color(hex: 0xE0A100)) { game.hint() }
         }
     }
@@ -170,18 +179,23 @@ private struct ToolButton: View {
     let title: String
     let enabled: Bool
     var tint: Color = Theme.accent
+    var isOn = false
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             VStack(spacing: 4) {
                 Image(systemName: systemName).font(.system(size: 20, weight: .semibold))
-                Text(title).font(Theme.rounded(12, .semibold))
+                Text(title).font(Theme.rounded(12, .semibold)).lineLimit(1).minimumScaleFactor(0.8)
             }
-            .foregroundColor(enabled ? tint : Theme.inkSoft.opacity(0.5))
+            .foregroundColor(isOn ? .white : (enabled ? tint : Theme.inkSoft.opacity(0.5)))
             .frame(maxWidth: .infinity)
             .frame(height: 58)
-            .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(Theme.surface))
+            .background(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(isOn ? AnyShapeStyle(Theme.brandGradient) : AnyShapeStyle(Theme.surface))
+            )
+            .animation(.easeOut(duration: 0.18), value: isOn)
             .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
         }
         .buttonStyle(PressableStyle(scale: 0.9))

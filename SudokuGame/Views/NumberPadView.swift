@@ -14,7 +14,8 @@ struct NumberPadView: View {
                         NumberKey(number: n,
                                   remaining: game.remaining(n),
                                   doneTick: game.digitDoneTick[n],
-                                  isActive: selectedValue == n) {
+                                  isActive: selectedValue == n && !game.notesMode,
+                                  notesMode: game.notesMode) {
                             game.enter(n)
                         }
                     }
@@ -29,6 +30,7 @@ private struct NumberKey: View {
     let remaining: Int
     let doneTick: Int
     let isActive: Bool
+    let notesMode: Bool
     let action: () -> Void
 
     @State private var bounce: CGFloat = 1
@@ -38,8 +40,9 @@ private struct NumberKey: View {
         Button(action: action) {
             VStack(spacing: 1) {
                 Text("\(number)")
-                    .font(Theme.rounded(28, .semibold))
-                    .foregroundColor(isActive ? .white : Theme.accent)
+                    .font(Theme.rounded(notesMode ? 22 : 28, notesMode ? .medium : .semibold))
+                    .foregroundColor(isActive ? .white : (notesMode ? Theme.inkSoft : Theme.accent))
+                    .frame(height: 30)
                 Group {
                     if done {
                         Image(systemName: "checkmark")
@@ -57,6 +60,12 @@ private struct NumberKey: View {
                 RoundedRectangle(cornerRadius: 14, style: .continuous)
                     .fill(isActive ? AnyShapeStyle(Theme.brandGradient) : AnyShapeStyle(Theme.surface))
             )
+            .overlay(
+                RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .strokeBorder(Theme.accent.opacity(notesMode ? 0.5 : 0),
+                                  style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
+            )
+            .animation(.easeOut(duration: 0.2), value: notesMode)
             .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
             .opacity(done ? 0.4 : 1)
         }
