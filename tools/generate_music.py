@@ -6,9 +6,9 @@ Run from the repo root:             python3 tools/generate_music.py
 Writes SudokuGame/Sounds/music_home.m4a and music_game.m4a, and prints each
 track's exact loop length in frames.
 
-"Santai Pagi" is a bossa nova (nylon guitar, upright bass, brushes, alto sax);
-"Santai Petang" is a slow ballad (finger-picked guitar, soft felt piano, tenor
-sax). Both follow Intro - A - A' - B - A. Note tails, reverb and the tone filter
+"Santai Pagi" is a bossa nova (nylon guitar, upright bass, brushes, soft piano);
+"Santai Petang" is a slow ballad (finger-picked guitar, soft felt piano, bass).
+Both follow Intro - A - A' - B - A. Note tails, reverb and the tone filter
 wrap around the end of the buffer, so each file loops seamlessly.
 """
 import os
@@ -91,28 +91,6 @@ def felt_piano(freq, dur, vel):
                for h, w in [(1, 1), (2, 0.28), (3, 0.08), (4, 0.03)])
     env = np.minimum(1, t / 0.012) * np.exp(-t / 2.4) * np.clip(1 - (t - dur) / 0.6, 0, 1)
     return vel * tone * env
-
-
-def sax(freq, dur, vel, seed):
-    """Additive sax: formant-shaped harmonics, breath noise, pitch scoop and delayed vibrato."""
-    n = int((dur + 0.25) * SR)
-    t = np.arange(n) / SR
-    cents = -35 * np.exp(-t / 0.045) + 11 * np.sin(2 * np.pi * 5.2 * t) * np.clip((t - 0.28) / 0.3, 0, 1)
-    phase = 2 * np.pi * np.cumsum(freq * 2 ** (cents / 1200)) / SR
-    env = np.minimum(1, t / 0.06) ** 1.5 * (0.9 + 0.1 * np.clip(t / max(dur, 0.1), 0, 1))
-    env *= np.clip(1 - (t - dur) / 0.14, 0, 1)
-    tone = np.zeros(n)
-    for h in range(1, 18):
-        f = h * freq
-        if f > 7000:
-            break
-        weight = h ** -1.1 * (1 + 1.4 * np.exp(-((f - 520) / 260) ** 2) + 0.8 * np.exp(-((f - 1450) / 450) ** 2))
-        # Upper harmonics bloom as the note swells, like a real reed.
-        bloom = np.clip(env, 0, 1) ** (0.4 * h)
-        tone += weight * bloom * np.sin(h * phase)
-    breath = highpass(noise(n, seed), 1)
-    breath = smooth(breath, 3) * 0.035
-    return vel * (tone / 2.2 + breath) * env
 
 
 def brush_swish(vel, seed, length=0.32):
@@ -221,14 +199,12 @@ class Song:
                     self.add(b0 + 0.02 * j, felt_piano(hz(note), length * self.spb, 0.07),
                              pan=-0.3 + 0.2 * j, gain=gain)
 
-    def melody(self, bar0, notes, voice="sax", gain=1.0, transpose=0, pan=0.05):
+    def melody(self, bar0, notes, voice="piano", gain=1.0, transpose=0, pan=0.05):
         for beat, midi, dur in notes:
             b = self.swing(bar0 * 4 + beat)
             f = hz(midi + transpose)
             vel = gain * self.rng.uniform(0.88, 1.0)
-            if voice == "sax":
-                audio = sax(f, dur * self.spb * 0.97, vel, self.next_seed())
-            elif voice == "guitar":
+            if voice == "guitar":
                 audio = nylon(f, max(dur, 1) * self.spb, vel, self.next_seed())
             else:
                 audio = felt_piano(f, dur * self.spb, vel)
@@ -332,12 +308,12 @@ def santai_pagi():
     s.bossa_guitar(4, a_prog, gain=0.5); s.bass(4, a_prog, gain=0.55); s.brushes(4, 8, "bossa")
     s.melody(4, a1, "guitar", 0.38, pan=0.0)                                     # theme on guitar first
     s.bossa_guitar(12, a_prog, gain=0.5); s.bass(12, a_prog, gain=0.55); s.brushes(12, 8, "bossa")
-    s.melody(12, a2, "sax", 0.3)                                                 # then the sax takes it
+    s.melody(12, a2, "piano", 0.3)                                              # then soft piano takes it
     s.bossa_guitar(20, b_prog, gain=0.5); s.bass(20, b_prog, gain=0.55); s.brushes(20, 8, "bossa")
     s.piano_pad(20, b_prog, gain=0.8)
-    s.melody(20, bridge, "sax", 0.28, transpose=-12)                             # bridge: low, warm sax
+    s.melody(20, bridge, "piano", 0.3)                                          # bridge on soft piano
     s.bossa_guitar(28, a_prog, gain=0.5); s.bass(28, a_prog, gain=0.55); s.brushes(28, 8, "bossa")
-    s.melody(28, a3, "sax", 0.3)
+    s.melody(28, a3, "piano", 0.3)
     return s
 
 
@@ -363,12 +339,12 @@ def santai_petang():
     s = Song(bpm=64, bars=28, seed=4, swing=0.08)
     s.arpeggio_guitar(0, a_prog[:4], gain=0.75); s.piano_pad(0, a_prog[:4])
     s.arpeggio_guitar(4, a_prog, gain=0.75); s.piano_pad(4, a_prog); s.bass(4, a_prog, gain=0.62); s.brushes(4, 8, "ballad", gain=0.7)
-    s.melody(4, theme, "sax", 0.3, transpose=-12)                                # tenor sax, low and warm
+    s.melody(4, theme, "piano", 0.32)                                            # soft piano theme
     s.arpeggio_guitar(12, b_prog, gain=0.75); s.piano_pad(12, b_prog); s.bass(12, b_prog, walking=True, gain=0.62)
     s.brushes(12, 8, "ballad", gain=0.7)
-    s.melody(12, bridge, "piano", 0.2)                                           # soft piano answers
+    s.melody(12, bridge, "piano", 0.32)                                           # soft piano answers
     s.arpeggio_guitar(20, a_prog, gain=0.75); s.piano_pad(20, a_prog); s.bass(20, a_prog, gain=0.62); s.brushes(20, 8, "ballad", gain=0.7)
-    s.melody(20, theme, "sax", 0.3, transpose=-12)
+    s.melody(20, theme, "piano", 0.32)
     return s
 
 
