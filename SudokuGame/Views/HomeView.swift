@@ -12,6 +12,7 @@ struct HomeView: View {
     @State private var appear = false
     @State private var pending: Difficulty?
     @State private var catMood: CatMood = .wave
+    @Environment(\.horizontalSizeClass) private var sizeClass
 
     private let today = DayKey.today()
 
@@ -20,19 +21,27 @@ struct HomeView: View {
             LivingBackground()
             FloatingDigitsBackground().ignoresSafeArea()
 
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    topBar
-                    hero
-                    dailyCard
-                        .padding(.top, 18)
-                    buttons
-                        .padding(.top, 14)
+            VStack(spacing: 0) {
+                topBar
+                    .padding(.horizontal, 22)
+                GeometryReader { geo in
+                    // On iPad the phone-sized layout is scaled up, but never beyond what fits.
+                    let scale = sizeClass == .regular ? max(1, min(1.3, geo.size.height / 720)) : 1
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 0) {
+                            hero
+                            dailyCard
+                                .padding(.top, 18)
+                            buttons
+                                .padding(.top, 14)
+                        }
+                        .padding(.horizontal, 22)
+                        .padding(.vertical, 16)
+                        .frame(maxWidth: 480)
+                        .scaleEffect(scale)
+                        .frame(maxWidth: .infinity, minHeight: geo.size.height)
+                    }
                 }
-                .padding(.horizontal, 22)
-                .padding(.bottom, 24)
-                .frame(maxWidth: 480)
-                .frame(maxWidth: .infinity)
             }
             .opacity(appear ? 1 : 0)
             .offset(y: appear ? 0 : 20)

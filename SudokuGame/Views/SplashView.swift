@@ -33,6 +33,7 @@ struct SplashView: View {
         }
         .contentShape(Rectangle())
         .onTapGesture(perform: finish)
+        .onDisappear { finished = true }
         .onAppear {
             withAnimation(.spring(response: 0.55, dampingFraction: 0.6).delay(0.5)) { showCat = true }
             withAnimation(.easeOut(duration: 0.6).delay(0.8)) { showTitle = true }

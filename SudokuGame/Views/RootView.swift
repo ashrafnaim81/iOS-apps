@@ -74,6 +74,7 @@ struct RootView: View {
     private func showScreenshotScene(_ scene: String) {
         UserDefaults.standard.set(false, forKey: SettingsKey.music)
         UserDefaults.standard.set(false, forKey: SettingsKey.sound)
+        LivingBackground.overrideHour = 18
         hasSeenOnboarding = true
         game.loadScreenshotDemo(solved: scene == "win")
         switch scene {

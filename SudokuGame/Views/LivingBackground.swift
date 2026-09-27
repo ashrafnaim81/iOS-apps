@@ -5,8 +5,20 @@ import SwiftUI
 struct LivingBackground: View {
     private enum Period { case morning, day, evening, night }
 
+    #if DEBUG
+    /// Pins the time of day so App Store screenshots look the same on every run.
+    static var overrideHour: Int?
+    #endif
+
+    private static var hour: Int {
+        #if DEBUG
+        if let overrideHour { return overrideHour }
+        #endif
+        return Calendar.current.component(.hour, from: Date())
+    }
+
     private static var period: Period {
-        switch Calendar.current.component(.hour, from: Date()) {
+        switch hour {
         case 5..<11: return .morning
         case 11..<17: return .day
         case 17..<20: return .evening
