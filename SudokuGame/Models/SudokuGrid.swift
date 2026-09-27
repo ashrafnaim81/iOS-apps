@@ -78,7 +78,7 @@ class SudokuGrid: ObservableObject {
 
     private func generateCompleteSudoku() -> [[Int]] {
         var grid = Array(repeating: Array(repeating: 0, count: 9), count: 9)
-        fillGrid(&grid, row: 0, col: 0)
+        _ = fillGrid(&grid, row: 0, col: 0)
         return grid
     }
 
@@ -94,7 +94,7 @@ class SudokuGrid: ObservableObject {
             }
         }
 
-        var numbers = Array(1...9).shuffled()
+        let numbers = Array(1...9).shuffled()
 
         for num in numbers {
             if isValidPlacement(grid, row: newRow, col: newCol, num: num) {
