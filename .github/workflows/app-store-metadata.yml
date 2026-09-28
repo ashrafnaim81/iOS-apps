@@ -52,7 +52,11 @@ jobs:
           ls -R fastlane/screenshots
           # Apple requires a review contact phone and email; they live in secrets, not in this public repo.
           # Strip stray whitespace, quotes and brackets that often sneak in when pasting secrets.
-          email=$(printf '%s' "$REVIEW_EMAIL" | tr -d ' \t\r\n"'"'"'<>' | sed 's/^mailto://I')
+          email=$(printf '%s' "$REVIEW_EMAIL" | LC_ALL=C tr -cd 'A-Za-z0-9._%+@-' | sed 's/^mailto://I')
+          raw_len=$(printf '%s' "$REVIEW_EMAIL" | LC_ALL=C wc -c | tr -d ' ')
+          echo "REVIEW_EMAIL: $raw_len raw bytes, ${#email} after cleaning"
+          # Anything after the domain's TLD (e.g. a trailing dot) is dropped as well.
+          email=$(printf '%s' "$email" | sed -E 's/\.+$//')
           phone=$(printf '%s' "$REVIEW_PHONE" | tr -d '\r\n"'"'"'' | tr -cd '+0-9 -' | sed 's/^ *//;s/ *$//')
           if [ -n "$REVIEW_EMAIL" ] && ! printf '%s' "$email" | grep -Eq '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'; then
             has_at=no; case "$email" in *@*) has_at=yes;; esac
