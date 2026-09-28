@@ -26,7 +26,7 @@ jobs:
       REVIEW_PHONE: ${{ secrets.REVIEW_PHONE }}
       REVIEW_EMAIL: ${{ secrets.REVIEW_EMAIL }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install fastlane
         run: gem install fastlane --no-document --user-install && echo "$(ruby -e 'print Gem.user_dir')/bin" >> "$GITHUB_PATH"
