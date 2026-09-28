@@ -81,9 +81,11 @@ jobs:
       - name: Report errors as annotations
         if: failure()
         run: |
-          grep -v -i "private key\|BEGIN\|END PRIVATE" "$RUNNER_TEMP/deliver.log" \
-            | sed 's/\x1b\[[0-9;]*m//g' | grep -i -E "error|invalid|fail|\[!\]|missing|not allowed|could not" \
-            | tail -15 | while IFS= read -r line; do echo "::error::${line:0:900}"; done || true
+          # One annotation holding the log tail, so it can be read without access to the raw log.
+          tail=$(grep -v -i "private key\|BEGIN\|END PRIVATE\|$ASC_KEY_ID\|$ASC_ISSUER_ID" "$RUNNER_TEMP/deliver.log" \
+            | sed 's/\x1b\[[0-9;]*m//g' | grep -v "^\s*$" | tail -60 | cut -c1-240)
+          tail="${tail//'%'/'%25'}"; tail="${tail//$'\n'/'%0A'}"
+          echo "::error title=deliver log tail::$tail"
 
       - name: Clean up
         if: always()
