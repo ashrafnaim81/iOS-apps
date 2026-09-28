@@ -23,6 +23,8 @@ jobs:
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
       ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+      REVIEW_PHONE: ${{ secrets.REVIEW_PHONE }}
+      REVIEW_EMAIL: ${{ secrets.REVIEW_EMAIL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -48,6 +50,15 @@ jobs:
             done
           done
           ls -R fastlane/screenshots
+          # Apple requires a review contact phone and email; they live in secrets, not in this public repo.
+          if [ -n "$REVIEW_PHONE" ] && [ -n "$REVIEW_EMAIL" ]; then
+            cp -R fastlane/review_information fastlane/metadata/review_information
+            printf '%s\n' "$REVIEW_PHONE" > fastlane/metadata/review_information/phone_number.txt
+            printf '%s\n' "$REVIEW_EMAIL" > fastlane/metadata/review_information/email_address.txt
+            echo "App Review contact details will be uploaded"
+          else
+            echo "::notice::REVIEW_PHONE / REVIEW_EMAIL secrets not set; skipping App Review information"
+          fi
 
       - name: Upload metadata and screenshots
         run: |
