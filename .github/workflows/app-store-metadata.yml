@@ -51,11 +51,19 @@ jobs:
           done
           ls -R fastlane/screenshots
           # Apple requires a review contact phone and email; they live in secrets, not in this public repo.
-          if [ -n "$REVIEW_PHONE" ] && [ -n "$REVIEW_EMAIL" ]; then
+          # Strip stray whitespace, quotes and brackets that often sneak in when pasting secrets.
+          email=$(printf '%s' "$REVIEW_EMAIL" | tr -d ' \t\r\n"'"'"'<>' | sed 's/^mailto://I')
+          phone=$(printf '%s' "$REVIEW_PHONE" | tr -d '\r\n"'"'"'' | tr -cd '+0-9 -' | sed 's/^ *//;s/ *$//')
+          if [ -n "$REVIEW_EMAIL" ] && ! printf '%s' "$email" | grep -Eq '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'; then
+            has_at=no; case "$email" in *@*) has_at=yes;; esac
+            echo "::error title=REVIEW_EMAIL invalid::Cleaned value has length ${#email}, contains '@': $has_at. Re-enter the secret as a plain address, e.g. support@example.com"
+            exit 1
+          fi
+          if [ -n "$phone" ] && [ -n "$email" ]; then
             cp -R fastlane/review_information fastlane/metadata/review_information
-            printf '%s\n' "$REVIEW_PHONE" > fastlane/metadata/review_information/phone_number.txt
-            printf '%s\n' "$REVIEW_EMAIL" > fastlane/metadata/review_information/email_address.txt
-            echo "App Review contact details will be uploaded"
+            printf '%s\n' "$phone" > fastlane/metadata/review_information/phone_number.txt
+            printf '%s\n' "$email" > fastlane/metadata/review_information/email_address.txt
+            echo "App Review contact details will be uploaded (email length ${#email}, phone length ${#phone})"
           else
             echo "::notice::REVIEW_PHONE / REVIEW_EMAIL secrets not set; skipping App Review information"
           fi
