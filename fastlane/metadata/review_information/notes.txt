@@ -1,0 +1,5 @@
+Sudoku Santai is a free, offline single-player Sudoku game. No account, no ads, no in-app purchases and no data collection.
+
+Unique features: an original animated cat mascot (Si Santai) drawn in code, a Daily Challenge with a calendar and streaks, 20 achievements, pencil notes, and original background music and sound effects generated specifically for this app.
+
+All content, artwork and audio are original. Nothing requires special setup to review; the tutorial appears on first launch and can be replayed from Settings > How to Play.

@@ -94,3 +94,7 @@ iOSInjectionProject/
 
 # Python
 __pycache__/
+
+# fastlane (screenshots are copied in by CI from AppStore/screenshots)
+fastlane/screenshots/
+fastlane/report.xml

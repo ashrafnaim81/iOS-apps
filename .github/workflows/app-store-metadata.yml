@@ -1,0 +1,79 @@
+name: Upload App Store Metadata
+
+# Uploads store text and screenshots to App Store Connect with fastlane deliver.
+# It never submits for review: the owner checks the listing and taps Submit.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/ios-sudoku-game-app-011CUofbb9KeLdjVAsxUxpxs
+    paths:
+      - "fastlane/**"
+      - ".github/workflows/app-store-metadata.yml"
+
+concurrency:
+  group: app-store-metadata
+  cancel-in-progress: false
+
+jobs:
+  deliver:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install fastlane
+        run: gem install fastlane --no-document --user-install && echo "$(ruby -e 'print Gem.user_dir')/bin" >> "$GITHUB_PATH"
+
+      - name: Prepare API key and screenshots
+        run: |
+          python3 - <<'EOF'
+          import json, os
+          key = {"key_id": os.environ["ASC_KEY_ID"], "issuer_id": os.environ["ASC_ISSUER_ID"],
+                 "key": os.environ["ASC_PRIVATE_KEY"], "in_house": False}
+          path = os.path.join(os.environ["RUNNER_TEMP"], "asc_api_key.json")
+          with open(path, "w") as f:
+              json.dump(key, f)
+          EOF
+          for locale in en-US ms; do
+            mkdir -p "fastlane/screenshots/$locale"
+            for device in iphone-6.9 ipad-13; do
+              for f in AppStore/screenshots/$device/*.png; do
+                cp "$f" "fastlane/screenshots/$locale/${device}_$(basename "$f")"
+              done
+            done
+          done
+          ls -R fastlane/screenshots
+
+      - name: Upload metadata and screenshots
+        run: |
+          set -o pipefail
+          fastlane deliver \
+            --api_key_path "$RUNNER_TEMP/asc_api_key.json" \
+            --app_identifier com.ashrafnaim.sudoku \
+            --app_version 1.0 \
+            --platform ios \
+            --metadata_path fastlane/metadata \
+            --screenshots_path fastlane/screenshots \
+            --overwrite_screenshots true \
+            --skip_binary_upload true \
+            --skip_app_version_update false \
+            --submit_for_review false \
+            --run_precheck_before_submit false \
+            --automatic_release true \
+            --force true 2>&1 | tee "$RUNNER_TEMP/deliver.log"
+
+      - name: Report errors as annotations
+        if: failure()
+        run: |
+          grep -v -i "private key\|BEGIN\|END PRIVATE" "$RUNNER_TEMP/deliver.log" \
+            | sed 's/\x1b\[[0-9;]*m//g' | grep -i -E "error|invalid|fail|\[!\]|missing|not allowed|could not" \
+            | tail -15 | while IFS= read -r line; do echo "::error::${line:0:900}"; done || true
+
+      - name: Clean up
+        if: always()
+        run: rm -f "$RUNNER_TEMP/asc_api_key.json"
