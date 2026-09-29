@@ -165,6 +165,14 @@ def add_to_internal_groups():
         a = g["attributes"]
         testers = call("GET", f"/v1/betaGroups/{g['id']}/betaTesters?limit=200"
                               "&fields[betaTesters]=inviteType,state")["data"]
+        if a["isInternalGroup"]:
+            for t in testers:
+                if t["attributes"].get("state") == "NOT_INVITED":
+                    call("POST", "/v1/betaTesterInvitations",
+                         {"data": {"type": "betaTesterInvitations", "relationships": {
+                             "app": rel("apps", app_id), "betaTester": rel("betaTesters", t["id"])}}},
+                         ok_conflict=True)
+                    print(f"::notice title=Invite sent::A tester in {a['name']} was sent a TestFlight invitation")
         states = [t["attributes"].get("state") for t in testers]
         print(f"::notice title=Group {a['name']}::internal={a['isInternalGroup']} "
               f"allBuilds={a.get('hasAccessToAllBuilds')} testers={len(testers)} states={states}")
