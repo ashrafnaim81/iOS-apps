@@ -57,7 +57,7 @@ def call(method, path, body=None, ok_conflict=False):
             raw = res.read()
             return json.loads(raw) if raw else {}
     except urllib.error.HTTPError as err:
-        detail = err.read().decode(errors="replace")
+        detail = " ".join(err.read().decode(errors="replace").split())
         if ok_conflict and err.code == 409:
             print(f"  (already done: {detail[:300]})")
             return None
@@ -162,7 +162,10 @@ def add_to_internal_groups():
     groups = call("GET", f"/v1/apps/{app_id}/betaGroups?limit=50")["data"]
     names = []
     for g in groups:
-        if g["attributes"]["isInternalGroup"]:
+        a = g["attributes"]
+        print(f"Group {a['name']}: internal={a['isInternalGroup']} allBuilds={a.get('hasAccessToAllBuilds')}")
+    for g in groups:
+        if g["attributes"]["isInternalGroup"] and not g["attributes"].get("hasAccessToAllBuilds"):
             call("POST", f"/v1/betaGroups/{g['id']}/relationships/builds",
                  {"data": [{"type": "builds", "id": build["id"]}]})
             names.append(g["attributes"]["name"])
