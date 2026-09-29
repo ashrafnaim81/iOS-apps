@@ -1,0 +1,31 @@
+name: TestFlight External Testers
+
+# Creates the "Rakan" external tester group with a public link, adds the newest
+# build and submits it for Beta App Review. Safe to re-run.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/ios-sudoku-game-app-011CUofbb9KeLdjVAsxUxpxs
+    paths:
+      - "tools/testflight_external.py"
+      - ".github/workflows/testflight-external.yml"
+
+concurrency:
+  group: testflight-external
+  cancel-in-progress: false
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+      REVIEW_PHONE: ${{ secrets.REVIEW_PHONE }}
+      REVIEW_EMAIL: ${{ secrets.REVIEW_EMAIL }}
+    steps:
+      - uses: actions/checkout@v5
+      - run: pip install --quiet "pyjwt[crypto]"
+      - run: python3 tools/testflight_external.py
