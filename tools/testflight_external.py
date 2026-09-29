@@ -152,5 +152,23 @@ def main():
           f"state {state.get('externalBuildState')}. Copy the public link from App Store Connect > TestFlight > {GROUP_NAME}.")
 
 
+def add_to_internal_groups():
+    """Adds the newest processed build to every internal group (no review needed)."""
+    app_id = call("GET", f"/v1/apps?filter[bundleId]={BUNDLE_ID}")["data"][0]["id"]
+    builds = call("GET", f"/v1/builds?filter[app]={app_id}&sort=-uploadedDate&limit=10"
+                         "&fields[builds]=version,processingState,expired")["data"]
+    build = next(b for b in builds
+                 if b["attributes"]["processingState"] == "VALID" and not b["attributes"]["expired"])
+    groups = call("GET", f"/v1/apps/{app_id}/betaGroups?limit=50")["data"]
+    names = []
+    for g in groups:
+        if g["attributes"]["isInternalGroup"]:
+            call("POST", f"/v1/betaGroups/{g['id']}/relationships/builds",
+                 {"data": [{"type": "builds", "id": build["id"]}]})
+            names.append(g["attributes"]["name"])
+    print(f"::notice title=TestFlight internal::Build {build['attributes']['version']} "
+          f"added to {len(names)} internal group(s): {', '.join(names) or 'none found'}")
+
+
 if __name__ == "__main__":
-    main()
+    add_to_internal_groups() if "--internal" in sys.argv else main()

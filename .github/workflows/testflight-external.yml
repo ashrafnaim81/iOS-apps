@@ -28,4 +28,4 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - run: pip install --quiet "pyjwt[crypto]"
-      - run: python3 tools/testflight_external.py
+      - run: python3 tools/testflight_external.py --internal
