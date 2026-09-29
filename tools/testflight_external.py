@@ -163,12 +163,19 @@ def add_to_internal_groups():
     names = []
     for g in groups:
         a = g["attributes"]
-        print(f"Group {a['name']}: internal={a['isInternalGroup']} allBuilds={a.get('hasAccessToAllBuilds')}")
+        testers = call("GET", f"/v1/betaGroups/{g['id']}/betaTesters?limit=200"
+                              "&fields[betaTesters]=inviteType,state")["data"]
+        states = [t["attributes"].get("state") for t in testers]
+        print(f"::notice title=Group {a['name']}::internal={a['isInternalGroup']} "
+              f"allBuilds={a.get('hasAccessToAllBuilds')} testers={len(testers)} states={states}")
     for g in groups:
         if g["attributes"]["isInternalGroup"] and not g["attributes"].get("hasAccessToAllBuilds"):
             call("POST", f"/v1/betaGroups/{g['id']}/relationships/builds",
                  {"data": [{"type": "builds", "id": build["id"]}]})
             names.append(g["attributes"]["name"])
+    detail = call("GET", f"/v1/builds/{build['id']}/buildBetaDetail")["data"]["attributes"]
+    print(f"::notice title=Build state::internal={detail.get('internalBuildState')} "
+          f"external={detail.get('externalBuildState')}")
     print(f"::notice title=TestFlight internal::Build {build['attributes']['version']} "
           f"added to {len(names)} internal group(s): {', '.join(names) or 'none found'}")
 
