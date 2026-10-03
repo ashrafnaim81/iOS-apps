@@ -1,0 +1,24 @@
+name: App Store Status
+
+# Read-only report of App Store versions, territory availability and price.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/ios-sudoku-game-app-011CUofbb9KeLdjVAsxUxpxs
+    paths:
+      - "tools/asc_status.py"
+      - ".github/workflows/asc-status.yml"
+
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+    steps:
+      - uses: actions/checkout@v5
+      - run: pip install --quiet "pyjwt[crypto]"
+      - run: python3 tools/asc_status.py

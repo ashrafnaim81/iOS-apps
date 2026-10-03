@@ -45,7 +45,7 @@ def token():
     )
 
 
-def call(method, path, body=None, ok_conflict=False):
+def call(method, path, body=None, ok_conflict=False, ok_missing=False):
     req = urllib.request.Request(
         API + path,
         method=method,
@@ -58,6 +58,8 @@ def call(method, path, body=None, ok_conflict=False):
             return json.loads(raw) if raw else {}
     except urllib.error.HTTPError as err:
         detail = " ".join(err.read().decode(errors="replace").split())
+        if ok_missing and err.code == 404:
+            return None
         if ok_conflict and err.code == 409:
             print(f"  (already done: {detail[:300]})")
             return None
